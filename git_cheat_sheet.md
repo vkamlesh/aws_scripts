@@ -1,4 +1,4 @@
-#The Three States:
+# The Three States:
 
 Git Directory: The .git directory is where Git stores the metadata and object database for the repository
 
@@ -9,7 +9,7 @@ Staging Area/Index: File that stores information about what will next be committ
 
 
 
-#Configure Tooling:
+# Configure Tooling:
 
 `git config --global user.name "[name]" `
 Sets the name you want attached to your commit transactions
@@ -23,7 +23,7 @@ Enables helpful colorizations of command line input
 
 
 
-#Create Repositories:
+# Create Repositories:
 
 `git init [project-name]`
 Creates a new local repository with the specified name
@@ -34,7 +34,7 @@ Downloads a project and its entire version history
 
 
 
-#Refactor Filenames:
+# Refactor Filenames:
 
 `git rm [file]`
 Deletes the file from the working directory and stages the deletion
@@ -68,134 +68,128 @@ Deletes the specified branch
 `git remote add [remote-name] [url]`
 Add a new remote git repository as a shortname
 
-git remote -v
+`git remote -v`
 Lists all remote git repositories
 
 
 
 
 
-#Make Changes:
+# Make Changes:
 
-git status
+`git status`
 Lists all new or modified files to be committed
 
-git diff
+`git diff`
 Shows file differences not yet staged
 
-git add [file]
+`git add [file]`
 Snapshots the file in preparation for versioning
 
-git diff --staged
+`git diff --staged`
 Shows file differences between staging and the last file version
 
-git reset [file]
+`git reset [file]`
 Unstages the file, but preserves its contents
 
-git commit -m "[descriptive message]"
+`git commit -m "[descriptive message]"`
 Records the file snapshots permanently in version history
 
 
 
 
+# Review History:
 
-#Review History:
-
-git log
+`git log`
 Lists version history for the current branch
 
-git log --follow [file]
+`git log --follow [file]`
 Lists version history for a file, including renames
 
-git diff [first-branch]...[second-branch]
+`git diff [first-branch]...[second-branch]`
 Shows content differences between two branches
 
-git show [commit]
+`git show [commit]`
 Outputs metadata and content changes of the specified commit
 
 
 
 
+# Save Fragments:
 
-
-#Save Fragments:
-
-git stash
+`git stash`
 Temporarily stores all modified tracking files
 
-git stash save [message]
+`git stash save [message]`
 Save local modifications to a new stash
 
-git stash pop
+`git stash pop`
 Restores the most recently stashed files
 
-git stash list
+`git stash list`
 Lists all stashed changesets
 
-git stash show
+`git stash show`
 Show the changes recorded in the stash
 
-git stash drop
+`git stash drop`
 Discards the most recently stashed changeset
 
 
 
 
 
-#Synchronize Changes:
+# Synchronize Changes:
 
 
-git fetch [bookmark] [branch]
+`git fetch [bookmark] [branch]`
 Downloads all history from the repository bookmark, optionally specifying branch
 
-git merge [bookmark]/[branch]
+`git merge [bookmark]/[branch]`
 Combines bookmark's branch into current local branches
 
-git push [alias] [branch]
+`git push [alias] [branch]`
 Uploads all local branch commits to GitHub
 
-git push [alias] :[branch]
+`git push [alias] :[branch]`
 Deletes remote branch
 
-git pull
+`git pull`
 Downloads bookmark history and incorporates changes
 
-git pull --rebase
+`git pull --rebase`
 Downloads bookmark history and incorporates your changes on top of remote changes
 
-git rebase --interactive --autosquash HEAD~N
+`git rebase --interactive --autosquash HEAD~N`
 Squash N last commits
 
-git cherry-pick -n <sha>
+`git cherry-pick -n <sha>`
 Cherry-pick a commit
 
-git revert -n <sha>
+`git revert -n <sha>`
 Revert a commit
 
 
 
 
+# Redo Commits:
 
-
-#Redo Commits:
-
-git reset [commit]
+`git reset [commit]`
 Undoes all commits after [commit], preserving changes locally
 
 
-git reset --hard [commit]
+`git reset --hard [commit]`
 Discards all history and changes back to the specified commit
 
 
 
 
 
+# Debugging:
 
-#Debugging:
 
-
-git blame [file]
+`git blame [file]`
 Show what revision and author last modified each line of a file
 
-git bisect
+`git bisect`
 Use binary search to find the commit that introduced a bug
