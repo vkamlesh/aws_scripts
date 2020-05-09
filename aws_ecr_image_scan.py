@@ -4,7 +4,6 @@ import argparse
 import boto3.session
 import botocore.exceptions
 import mysql.connector
-import local_settings.py as settings
 
 
 parser = argparse.ArgumentParser()
@@ -72,8 +71,8 @@ def scan_result(*args):
                                                                'imageTag': image_tag})
             connection = mysql.connector.connect(host='192.168.99.102',
                                                  database='ecr_scan',
-                                                 user=settings.MYSQL_USER,
-                                                 password=settings.MYSQL_PASSWORD,
+                                                 user=MYSQL_USER,
+                                                 password=MYSQL_PASSWORD,
                                                  port='3306')
 
             if response['imageScanStatus']['status'] == 'COMPLETE' and connection.is_connected():
