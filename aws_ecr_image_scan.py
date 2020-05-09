@@ -4,7 +4,8 @@ import argparse
 import boto3.session
 import botocore.exceptions
 import mysql.connector
-from mysql.connector import Error, IntegrityError
+import local_settings.py as settings
+
 
 parser = argparse.ArgumentParser()
 
@@ -71,8 +72,8 @@ def scan_result(*args):
                                                                'imageTag': image_tag})
             connection = mysql.connector.connect(host='192.168.99.102',
                                                  database='ecr_scan',
-                                                 user='app',
-                                                 password='#Super@131',
+                                                 user=settings.MYSQL_USER,
+                                                 password=settings.MYSQL_PASSWORD,
                                                  port='3306')
 
             if response['imageScanStatus']['status'] == 'COMPLETE' and connection.is_connected():
