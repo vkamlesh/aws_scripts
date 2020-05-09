@@ -3,6 +3,7 @@
 import argparse
 import boto3.session
 import botocore.exceptions
+from prettytable import PrettyTable
 import mysql.connector
 from mysql.connector import Error, IntegrityError
 
@@ -62,6 +63,14 @@ def image_scan(*args):
     return response['imageScanStatus']
 
 
+wait_scan = []
+failed_scan = []
+table = PrettyTable()
+table.field_names = ["Repository", "Image Tag", "Scan Time", "Last Time report",
+                     "Name", "Severity", "Package", "Version"]
+table.align["Version"] = "l"
+
+
 def scan_result(*args):
     for repo_name, image_id, image_tag in args:
         try:
@@ -95,6 +104,13 @@ def scan_result(*args):
                                 vu_name, vu_severity, pkg_version, pkg_name)
                 cursor.execute(sql_insert_query, insert_tuple)
                 connection.commit()
+                # table.add_row([repo_name, image_tag, last_scanComplete, last_vulnerabilityScan,
+                # vu_name, vu_severity, pkg_name, pkg_version])
+                # print(f"{last_scanComplete}\n{last_vulnerabilityScan}\n{vulnerability_name}\n{vulnerability_URI}\n {vulnerability_severity}\n {package_version}\n{package_name}")
+            elif response['imageScanStatus']['status'] == 'IN_PROGRESS':
+                wait_scan.append([repo_name, image_id, image_tag])
+            elif response['imageScanStatus']['status'] == 'FAILED':
+                failed_scan.append([repo_name, image_id, image_tag])
         except botocore.exceptions.ClientError as error:
             print(f"Image is not part of scan {repo_name}:{image_id}\n")
         except mysql.connector.Error as error:
@@ -106,6 +122,60 @@ def scan_result(*args):
             if (connection.is_connected()):
                 cursor.close()
                 connection.close()
+
+
+"""
+# Sending Email functionality is not working with current credentials and setup.
+def send_email(table):
+    sender = "sender@xyz.com"
+    recipient = "recipient@xyz.com"
+    aws_region = "us-east-1"
+    subject = "AWS ECR SCAN Result for Account {args.account_id}"
+    html = '''<html>
+    <head>AWS Image Scan Result</head>
+    <body>
+    <p>Amazon ECR uses the severity for a CVE from the upstream distribution source and Common Vulnerability Scoring System (CVSS) score.</p>
+    <tr>$tbl</tr>
+    <a></a>
+    </body
+    </html>'''
+
+    tb = Template(html).safe_substitute(tbl=table)
+    print(tb)
+
+    charset = "UTF-8"
+    client = boto3.client('ses', region_name=aws_region)
+    try:
+        response = client.send_email(
+            Destination={
+                'ToAddresses': [
+                    recipient,
+                ],
+            },
+            Message={
+                'Body': {
+                    'Html': {
+                        'Charset': charset,
+                        'Data': tb,
+                    }
+                },
+                'Subject': {
+                    'Charset': charset,
+                    'Data': subject,
+                },
+            },
+            Source=sender,
+            # If you are not using a configuration set, comment or delete the
+            # following line
+            # ConfigurationSetName=CONFIGURATION_SET,
+        )
+    # Display an error if something goes wrong.
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        print("Email sent! Message ID:"),
+        print(response['MessageId'])
+"""
 
 
 def main():

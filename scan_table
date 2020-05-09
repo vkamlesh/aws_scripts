@@ -1,0 +1,17 @@
+
+mysql> desc scan_result;
++------------------------+-----------------+------+-----+---------+----------------+
+| Field                  | Type            | Null | Key | Default | Extra          |
++------------------------+-----------------+------+-----+---------+----------------+
+| id                     | int(6) unsigned | NO   | PRI | NULL    | auto_increment |
+| repo_name              | char(100)       | NO   |     | NULL    |                |
+| image_id               | varchar(500)    | NO   |     | NULL    |                |
+| image_tag              | varchar(500)    | NO   | UNI | NULL    |                |
+| last_scanComplete      | datetime        | YES  |     | NULL    |                |
+| last_vulnerabilityScan | datetime        | YES  |     | NULL    |                |
+| name                   | char(255)       | YES  |     | NULL    |                |
+| severity               | char(30)        | YES  |     | NULL    |                |
+| pkg_version            | char(100)       | YES  |     | NULL    |                |
+| pkg_name               | char(100)       | YES  |     | NULL    |                |
++------------------------+-----------------+------+-----+---------+----------------+
+10 rows in set (0.00 sec)
